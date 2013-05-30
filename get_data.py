@@ -84,30 +84,5 @@ def main():
 		else:
 			time.sleep(1)
 
-	print ""
-	print "External Sensor:"
-
-	readout = None
-
-	counter = 0
-
-	while (readout == None and counter < 5):
-
-		counter += 1 
-
-		readout = getReadout("external")
-
-		if readout != None:
-
-			saveSQLite(readout, "external")
-
-			humidity = readout[0]
-			temperature = readout[1]
-		
-			print "Humidity: " + humidity
-			print "Temperature: " + temperature
-		else:
-			time.sleep(1)
-
 if __name__ == "__main__":
     main()
