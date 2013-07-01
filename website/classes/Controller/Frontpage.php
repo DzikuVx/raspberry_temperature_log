@@ -39,9 +39,9 @@ class Frontpage extends Base implements \Interfaces\Singleton {
 					
 				if (method_exists($tObject, 'execute')) {
 					$tObject->execute($aParams, $template);
-						
+
 					Main::$mainContentProcessed = true;
-						
+
 				}
 			}
 
@@ -50,33 +50,18 @@ class Frontpage extends Base implements \Interfaces\Singleton {
 	}
 
 	public function render(array $aParams, \General\Templater $template) {
-		
-		if (empty($aParams['sensor'])) {
-			$aParams['sensor'] = 'external';
-		}
+
 		if (empty($aParams['type'])) {
 			$aParams['type'] = 'chart';
 		}
-		
-		switch ($aParams['sensor']) {
-			
-			case 'internal':
-				$oView = new \View\FrontpageInternal($aParams);
-				$template->add('menu-active-internal','active');
-				break;
-				
-			case 'external':
-			default:
-				$oView = new \View\FrontpageExternal($aParams);
-				$template->add('menu-active-external','active');
-				break;
-			
-		}
-		
+
+		$oView = new \View\FrontpageInternal($aParams);
+		$template->add('menu-active-internal','active');
+
 		$template->add('mainContent', $oView->mainpage());
-		
+
 		switch ($aParams['type']) {
-			
+				
 			case 'table':
 				$template->add('pageContent', $oView->tables());
 				$template->add('menu-active-table','active');
@@ -88,14 +73,13 @@ class Frontpage extends Base implements \Interfaces\Singleton {
 				$template->add('pageContent', $oView->charts());
 				$template->add('menu-active-chart','active');
 				break;
-				
+
 		}
-		
+
 		$template->add('menu-active-external', '');
 		$template->add('menu-active-internal', '');
 		$template->add('menu-active-table','');
 		$template->add('menu-active-chart','');
-		$template->add('param:sensor', $aParams['sensor']);
-		
+
 	}
 }

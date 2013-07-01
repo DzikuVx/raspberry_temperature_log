@@ -52,31 +52,6 @@ abstract class Frontpage extends Base {
 		$oTemplate->add('7dTempMax', Formater::formatFloat($oData->Temperature, 2));
 		$oTemplate->add('7dHumidityMax', Formater::formatFloat($oData->Humidity, 2));
 
-		/*
-		 * External data from Open Weather Map
-		 */
-		$oOpenWeatherMap = new \Model\OpenWeatherMap();
-		$oCurrent = $oOpenWeatherMap->getCurrent();
-		$oTemplate->add($oCurrent);
-		
-		$oData = $oOpenWeatherMap->getAverage(1);
-		$oTemplate->add('1dPressureAvg', Formater::formatFloat($oData->Pressure, 2));
-		
-		$oData = $oOpenWeatherMap->getMin(1);
-		$oTemplate->add('1dPressureMin', Formater::formatFloat($oData->Pressure, 2));
-		
-		$oData = $oOpenWeatherMap->getMax(1);
-		$oTemplate->add('1dPressureMax', Formater::formatFloat($oData->Pressure, 2));
-		
-		$oData = $oOpenWeatherMap->getAverage(7);
-		$oTemplate->add('7dPressureAvg', Formater::formatFloat($oData->Pressure, 2));
-		
-		$oData = $oOpenWeatherMap->getMin(7);
-		$oTemplate->add('7dPressureMin', Formater::formatFloat($oData->Pressure, 2));
-		
-		$oData = $oOpenWeatherMap->getMax(7);
-		$oTemplate->add('7dPressureMax', Formater::formatFloat($oData->Pressure, 2));
-		
 		return (string) $oTemplate;
 		
 	}
@@ -140,71 +115,6 @@ abstract class Frontpage extends Base {
 	public function chartHead() {
 		
 		$oTemplate = new Templater('chartHead.html');
-		
-		/*
-		$aHistory = $this->model->getDayAggregate(14,"ASC");
-		
-		$aData = array();
-		foreach ($aHistory as $iIndex => $oReadout) {
-			$aData[] = "['".Formater::formatDate($oReadout['Date'])."', ".number_format($oReadout['Temperature'],2)."]";
-		}
-		
-		$oTemplate->add('chartDailyTemperature',implode(',', $aData));
-		
-		$aData = array();
-		foreach ($aHistory as $iIndex => $oReadout) {
-			$aData[] = "['".Formater::formatDate($oReadout['Date'])."', ".number_format($oReadout['Humidity'],2)."]";
-		}
-		
-		$oTemplate->add('chartDailyHumidity',implode(',', $aData));
-		
-		*/
-		
-		/**
-		 * Data from OpenWeatherMap.orh
-		 */
-		$oOpenWeatherMap = new \Model\OpenWeatherMap();
-		
-		$aHistory = $oOpenWeatherMap->getHourAggregate(72,"ASC");
-
-		$oChartHourPressure = new \General\GoogleChart();
-		$oChartHourPressure->setTitle('Pressure');
-		$oChartHourPressure->setDomID('chartHourPressure');
-		$oChartHourPressure->add('Hour', array());
-		$oChartHourPressure->add('Avg', array());
-		$oChartHourPressure->add('Max', array());
-		$oChartHourPressure->add('Min', array());
-		
-		foreach ($aHistory as $iIndex => $oReadout) {
-			
-			$oChartHourPressure->push('Hour', Formater::formatTime($oReadout['Date']));
-			$oChartHourPressure->push('Avg', number_format($oReadout['Pressure'],2,'.',''));
-			$oChartHourPressure->push('Max', number_format($oReadout['MaxPressure'],2,'.',''));
-			$oChartHourPressure->push('Min', number_format($oReadout['MinPressure'],2,'.',''));
-			
-		}
-		$oTemplate->add('chartHourPressure',$oChartHourPressure->getHead());
-
-		$oChartDailyPressure = new \General\GoogleChart();
-		$oChartDailyPressure->setTitle('Pressure');
-		$oChartDailyPressure->setDomID('chartDailyPressure');
-		$oChartDailyPressure->add('Hour', array());
-		$oChartDailyPressure->add('Avg', array());
-		$oChartDailyPressure->add('Max', array());
-		$oChartDailyPressure->add('Min', array());
-		
-		$aHistory = $oOpenWeatherMap->getDayAggregate(72,"ASC");
-		foreach ($aHistory as $iIndex => $oReadout) {
-			
-			$oChartDailyPressure->push('Hour', Formater::formatDate($oReadout['Date']));
-			$oChartDailyPressure->push('Avg', number_format($oReadout['Pressure'],2,'.',''));
-			$oChartDailyPressure->push('Max', number_format($oReadout['MaxPressure'],2,'.',''));
-			$oChartDailyPressure->push('Min', number_format($oReadout['MinPressure'],2,'.',''));
-			
-		}
-		
-		$oTemplate->add('chartDailyPressure',$oChartDailyPressure->getHead());
-		
 		
 		/*
 		 * Hour Aggregate charts
