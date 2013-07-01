@@ -4,7 +4,6 @@ Turn Raspberry Pi into temperature and humidity logging station with DHT11 senso
 
 ![screenshot](/assets/img/3.png)
 ![raspberry with sensor](/assets/img/2.jpg)
-![raspberry with sensor](/assets/img/4.jpeg)
 
 #Electrical diagram
 
@@ -34,7 +33,7 @@ Turn Raspberry Pi into temperature and humidity logging station with DHT11 senso
 * `cd raspberry_temperature_log`
 * build sensor driver `sh build_sensor.sh`
 * check if sensors are working `python get_data.py`
-* add following line to cron (with `crontab -e`), it will get save data do database every 10 minutes: `*/10 * * * * sudo python /home/pi/raspberry_temperature_log/get_data.py`
+* add following line to cron (with `crontab -e`), it will get save data do database every 20 minutes: `*/20 * * * * sudo python /home/pi/raspberry_temperature_log/get_data.py`
 * configure Raspberry Pi web server, example configuration for nginx, PHP5-FMP and domain http://temperature.spychalski.info included below
 * that's all
 
