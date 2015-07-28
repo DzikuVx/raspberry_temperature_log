@@ -1,5 +1,7 @@
 # raspberry_temperature_log
 
+## This project is no longer supported. For more advanced solution refer to https://github.com/DzikuVx/WeatherStation
+
 Turn Raspberry Pi into temperature and humidity logging station with DHT11 sensor
 
 ![screenshot](/assets/img/3.png)
